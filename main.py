@@ -2,10 +2,13 @@
 
 """ generate example data, draw data """
 
+import tagging
+from tagging import Tags
 import typing
 import settings
 from tagging import get_tags, get_example_tags
 import drawing
+
 
 def main():
     """ generate example data, draw data """
@@ -19,16 +22,15 @@ def main():
 
     # generate example tags, print pretty
     tags_dict = get_example_tags()
-    #print(json.dumps(tags_dict, sort_keys = True, indent = 4))
+    # print(json.dumps(tags_dict, sort_keys = True, indent = , ensure_ascii=False))
 
     # save example tags to file
     # with open("tags.json", "w") as outfile:
     #     json.dump(tags_dict, outfile, sort_keys=False, indent=4)
 
-
     # get tags to process from file
-    tags_dict : typing.Dict = get_tags()
-    tags_group : typing.List = tags_dict["tags"]
+    # tags_dict: typing.Dict = get_tags()
+    # tags_group: typing.List = tags_dict["tags"]
 
     html = "<table><td style=\"    vertical-align: top;\">"
     html += "<table border=1 frame=void>\n"
@@ -39,13 +41,14 @@ def main():
         <th>Way C</th>
     </tr>"""
 
+    tags = Tags()
+    example : tagging.Example
     # draw each group of tags separately
-    group: typing.Dict
-    for group in tags_group:
+    for example in tags:
         d_file = drawing.Drawing()
 
         # add tags
-        d_file.add_group(group)
+        d_file.add_group(example)
 
         # process tags
         d_file.draw()
@@ -67,6 +70,7 @@ def main():
 
     with open("tagging_generated.html", "w") as outfile:
         outfile.write(html)
+
 
 if __name__ == "__main__":
     main()

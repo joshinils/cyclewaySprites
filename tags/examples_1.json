@@ -1,0 +1,37 @@
+{
+    "strasse_gras": {
+        "sort_weight": 0,
+        "ways": [{
+            "name": "Straße",
+            "direction": "up",
+            "tags": {
+                "highway": "road",
+                "cycleway:both": "no",
+                "sidewalk:both": "no",
+                "name": "Musterstraße"
+            }
+        }]
+    },
+    "strasse5": {
+        "sort_weight": 1,
+        "ways": [{
+            "name": "Straße",
+            "direction": "up",
+            "tags": {
+                "highway": "road",
+                "cycleway:both": "no",
+                "sidewalk:left": "no",
+                "sidewalk:right": "separate",
+                "name": "Musterstraße"
+            }
+        }, {
+            "name": "Bürgersteig",
+            "direction": "up",
+            "tags": {
+                "highway": "footway",
+                "footway": "sidewalk",
+                "separation:left": "grass_verge"
+            }
+        }]
+    }
+}
