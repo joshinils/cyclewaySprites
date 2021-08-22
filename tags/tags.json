@@ -1,34 +1,21 @@
 {
-    "tags": [{
-            "Way 1": {
-                "highway": "road",
-                "cycleway:both": "no",
-                "sidewalk:both": "no"
-            }
-        },
-        {
-            "Way 1": {
-                "highway": "road",
-                "cycleway:both": "no",
-                "sidewalk:left": "no",
-                "sidewalk:right": "separate"
-            },
-            "Way 2": {
-                "highway": "footway",
-                "footway": "sidewalk",
-                "separation:left": "grass_verge"
-            }
-        },
-        {
-            "Way 1": {
+    "ex_03": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "cycleway:left": "no",
                 "cycleway:right": "separate",
                 "bicycle:right": "optional_sidepath",
                 "sidewalk:left": "no",
                 "sidewalk:right": "separate"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "footway",
                 "footway": "sidewalk",
                 "foot": "designated",
@@ -38,9 +25,14 @@
                 "segregated": "no",
                 "separation:left": "grass_verge"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_04": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "cycleway:left": "no",
                 "cycleway:right": "lane",
@@ -49,14 +41,22 @@
                 "sidewalk:left": "no",
                 "sidewalk:right": "separate",
                 "separation:right": "grass_verge"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "footway",
                 "footway": "sidewalk"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_05": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "lanes": "2",
                 "cycleway:left": "no",
@@ -66,14 +66,22 @@
                 "sidewalk:left": "no",
                 "sidewalk:right": "separate",
                 "separation:right": "grass_verge"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "footway",
                 "footway": "sidewalk"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_06": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "lanes": "2",
                 "cycleway:left": "no",
@@ -84,22 +92,33 @@
                 "sidewalk:left": "no",
                 "sidewalk:right": "separate",
                 "separation:right": "grass_verge"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "footway",
                 "footway": "sidewalk"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_07": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "cycleway:left": "no",
                 "sidewalk:left": "no",
                 "cycleway:right": "separate",
                 "bicycle:right": "use_sidepath",
                 "sidewalk:right": "separate"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "path",
                 "footway": "sidewalk",
                 "foot": "designated",
@@ -108,17 +127,25 @@
                 "traffic_sign": "DE:240",
                 "separation:left": "grass_verge"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_08": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "cycleway:right": "separate",
                 "bicycle:right": "optional_sidepath",
                 "sidewalk:right": "separate",
                 "cycleway:left": "no",
                 "sidewalk:left": "no"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "path",
                 "bicycle": "yes",
                 "bicycle:oneway": "yes",
@@ -127,17 +154,25 @@
                 "segregated": "yes",
                 "separation:left": "grass_verge"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_09": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "cycleway:right": "separate",
                 "bicycle:right": "use_sidepath",
                 "sidewalk:right": "separate",
                 "cycleway:left": "no",
                 "sidewalk:left": "no"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "path",
                 "bicycle": "designated",
                 "bicycle:oneway": "yes",
@@ -147,79 +182,120 @@
                 "traffic_sign": "DE:241-30",
                 "separation:left": "grass_verge"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_10": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "cycleway:right": "separate",
                 "bicycle:right": "optional_sidepath",
                 "sidewalk:right": "separate",
                 "cycleway:left": "no",
                 "sidewalk:left": "no"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "cycleway",
                 "bicycle": "yes",
                 "bicycle:oneway": "yes",
                 "separation:right": "grass_verge"
-            },
-            "Way 3": {
+            }
+        }, {
+            "name": "Way 3",
+            "direction": "up",
+            "tags": {
                 "highway": "footway",
                 "footway": "sidewalk"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_11": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "cycleway:right": "separate",
                 "bicycle:right": "use_sidepath",
                 "sidewalk:right": "separate",
                 "cycleway:left": "no",
                 "sidewalk:left": "no"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "cycleway",
                 "bicycle": "designated",
                 "bicycle:oneway": "yes",
                 "traffic_sign": "DE:237",
                 "separation:right": "grass_verge"
-            },
-            "Way 3": {
+            }
+        }, {
+            "name": "Way 3",
+            "direction": "up",
+            "tags": {
                 "highway": "footway",
                 "footway": "sidewalk"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_12": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "cycleway:right": "separate",
                 "bicycle:both": "use_sidepath",
                 "sidewalk:right": "separate",
                 "cycleway:left": "no",
                 "sidewalk:left": "no"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "cycleway",
                 "bicycle": "designated",
                 "bicycle:oneway": "no",
                 "traffic_sign": "DE:237;1000-31",
                 "separation:right": "grass_verge"
-            },
-            "Way 3": {
+            }
+        }, {
+            "name": "Way 3",
+            "direction": "up",
+            "tags": {
                 "highway": "footway",
                 "footway": "sidewalk"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_13": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "cycleway:right": "separate",
                 "bicycle:both": "use_sidepath",
                 "sidewalk:right": "separate",
                 "cycleway:left": "no",
                 "sidewalk:left": "no"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "path",
                 "bicycle": "designated",
                 "foot": "designated",
@@ -229,71 +305,104 @@
                 "traffic_sign": "DE:241;1000-31",
                 "separation:left": "grass_verge"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_14": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "cycleway:right": "separate",
                 "bicycle:right": "optional_sidepath",
                 "sidewalk:right": "separate",
                 "cycleway:left": "no",
                 "sidewalk:left": "no"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "cycleway",
                 "bicycle": "yes",
                 "bicycle:oneway": "yes",
                 "separation:left": "grass_verge",
                 "separation:right": "grass_verge"
-            },
-            "Way 3": {
+            }
+        }, {
+            "name": "Way 3",
+            "direction": "up",
+            "tags": {
                 "highway": "footway",
                 "footway": "sidewalk"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_15": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "cycleway:right": "separate",
                 "bicycle:right": "use_sidepath",
                 "sidewalk:right": "separate",
                 "cycleway:left": "no",
                 "sidewalk:left": "no"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "cycleway",
                 "bicycle": "designated",
                 "bicycle:oneway": "yes",
                 "traffic_sign": "DE:237",
                 "separation:left": "grass_verge",
                 "separation:right": "grass_verge"
-            },
-            "Way 3": {
+            }
+        }, {
+            "name": "Way 3",
+            "direction": "up",
+            "tags": {
                 "highway": "footway",
                 "footway": "sidewalk"
             }
-        },
-        {
-            "Way 1": {
+        }]
+    },
+    "ex_16": {
+        "sort_weight": 1000,
+        "ways": [{
+            "name": "Way 1",
+            "direction": "up",
+            "tags": {
                 "highway": "road",
                 "cycleway:both": "separate",
                 "bicycle:both": "use_sidepath",
                 "sidewalk:right": "separate",
                 "cycleway:left": "no",
                 "sidewalk:left": "no"
-            },
-            "Way 2": {
+            }
+        }, {
+            "name": "Way 2",
+            "direction": "up",
+            "tags": {
                 "highway": "cycleway",
                 "bicycle": "designated",
                 "bicycle:oneway": "no",
                 "traffic_sign": "DE:237;1000-31",
                 "separation:left": "grass_verge",
                 "separation:right": "grass_verge"
-            },
-            "Way 3": {
+            }
+        }, {
+            "name": "Way 3",
+            "direction": "up",
+            "tags": {
                 "highway": "footway",
                 "footway": "sidewalk"
             }
-        }
-    ]
+        }]
+    }
 }

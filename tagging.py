@@ -70,6 +70,8 @@ class Tags(typing.List[Example]):
             # printdict(tag_data)
             for example_name, example_data in json_data.items():
                 self.append(Example(example_name, example_data))
+        # sort by sort_weight
+        self.sort(key=lambda x: x.sort_weight)
 
 
 def get_tags() -> typing.Dict:
