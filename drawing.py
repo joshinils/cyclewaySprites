@@ -81,11 +81,6 @@ class Drawing:
     def add_way(self: 'Drawing', name: str, tags: tagging.Tag_group, count: int, total: int) -> None:
         self.ways.append(Way(name, tags, count, total))
 
-    def add_test_elems(self: 'Drawing') -> None:
-        self.svg_obj.add(self.svg_obj.line((0, 0), (100, 10), stroke=svgwrite.rgb(10, 10, 16, '%')))
-        self.svg_obj.add(self.svg_obj.text('Test', insert=(10, 10.2), fill='red'))
-        self.svg_obj.add(self.svg_obj.rect((0, 0), (10, 10), fill='blue'))
-
     def save(self: 'Drawing') -> None:
         self.svg_obj.save()
 
