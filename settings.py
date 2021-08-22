@@ -35,8 +35,7 @@ class Draw:
                 else:
                     Draw.check_values(value, prev + ":" + key)
             if value == "?":
-                print("warning: unknown value in DrawSettings:",
-                      prev + ":" + key, "=", value)
+                print("warning: unknown value in DrawSettings:", prev + ":" + key, "=", value)
 
     @staticmethod
     def __getitem__(item):
@@ -82,15 +81,12 @@ class Draw:
                 with scoping():
                     # verhaeltnis laenge:luecke ist 1:2
                     abstand = leitlinie.setdefault("abstand", 6)
-                    laenge = leitlinie.setdefault(
-                        "laenge", 3)  # innerorts, ist variabel
+                    laenge = leitlinie.setdefault("laenge", 3)  # innerorts, ist variabel
                     breite = leitlinie.setdefault("breite", "schmalstrich")
 
-                seitenlinie = linie.setdefault(
-                    "seitenlinie", {})  # name ausgedacht
+                seitenlinie = linie.setdefault("seitenlinie", {})  # name ausgedacht
                 with scoping():
-                    abstand = seitenlinie.setdefault(
-                        "abstand", 0)  # durchgezogen
+                    abstand = seitenlinie.setdefault("abstand", 0)  # durchgezogen
                     laenge = seitenlinie.setdefault("laenge", 1)
                     breite = seitenlinie.setdefault("breite", "schmalstrich")
 
@@ -120,8 +116,7 @@ class Draw:
                             breite.setdefault("min", 2.5)
                             breite.setdefault("opt", "?")
 
-                radfahrstreifen = ausgeschildert.setdefault(
-                    "radfahrstreifen", {})
+                radfahrstreifen = ausgeschildert.setdefault("radfahrstreifen", {})
                 with scoping():
                     breite = radfahrstreifen.setdefault("breite", {})
                     with scoping():
@@ -159,18 +154,15 @@ class Draw:
 
                 seitenlinie = schutzstreifen.setdefault("seitenlinie", {})
                 with scoping():
-                    links = seitenlinie.setdefault(
-                        "links", {})  # name ausgedacht
+                    links = seitenlinie.setdefault("links", {})  # name ausgedacht
                     with scoping():
                         abstand = links.setdefault("abstand", 1)
                         laenge = links.setdefault("laenge", 1)
                         breite = links.setdefault("breite", "schmalstrich")
 
-                    rechts = seitenlinie.setdefault(
-                        "rechts", {})  # name ausgedacht
+                    rechts = seitenlinie.setdefault("rechts", {})  # name ausgedacht
                     with scoping():
-                        abstand = rechts.setdefault(
-                            "abstand", 0)  # durchgezogen
+                        abstand = rechts.setdefault("abstand", 0)  # durchgezogen
                         laenge = rechts.setdefault("laenge", 1)
                         breite = rechts.setdefault("breite", "schmalstrich")
 
@@ -182,8 +174,7 @@ class Draw:
                         breite.setdefault("opt", 3)
 
         pixel_pro_meter = Draw.settings_data.setdefault("pixel_pro_meter", 160)
-        draw_height_meter = Draw.settings_data.setdefault(
-            "draw_height_meter", 10)
+        draw_height_meter = Draw.settings_data.setdefault("draw_height_meter", 10)
 
         schild = Draw.settings_data.setdefault("schild", {})
         with scoping():

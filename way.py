@@ -23,7 +23,8 @@ class Way:
         "segregated":          {"yes", "no"},
         "separation:left":     {"grass_verge"},
         "separation:right":    {"grass_verge"},
-        "name":                {}}
+        "name":                {}
+    }
 
     # ignored tags have no renderable equivalent, thus ignore to suppress warnings
     ignored_tags = {
@@ -40,7 +41,7 @@ class Way:
         "footway":                     {"sidewalk"},
         "sidewalk:both":               {"no", "separate"},
         "sidewalk:left":               {"no", "separate"},
-        "sidewalk:right":              {"no", "separate"},
+        "sidewalk:right":              {"no", "separate"}
     }
 
     def __init__(self: 'Way', name: str, tags: tagging.Tag_group, count: int, total: int) -> 'Way':
@@ -100,19 +101,19 @@ class Way:
     def add_grass_verge_left(self: 'Way') -> None:
         # add grass_verge if first way
         if (self.count == 0
-                    or
-                    "separation:left" in self.filtered_tags
-                    and self.filtered_tags["separation:left"] == "grass_verge"
-                ):
+            or
+                "separation:left" in self.filtered_tags
+                and
+                self.filtered_tags["separation:left"] == "grass_verge"):
             self.way_elems.append(self.make_grass_verge_elem())
 
     def add_grass_verge_right(self: 'Way') -> None:
         # add grass_verge on the right, if last way
         if (not self.count + 1 < self.total
-                    or
-                    "separation:right" in self.filtered_tags
-                    and self.filtered_tags["separation:right"] == "grass_verge"
-                ):
+            or
+                "separation:right" in self.filtered_tags
+                and
+                self.filtered_tags["separation:right"] == "grass_verge"):
             self.way_elems.append(self.make_grass_verge_elem())
 
     def create_elements_highway_road(self: 'Way') -> None:
@@ -167,8 +168,12 @@ class Way:
                     self.way_elems.append(leitlinie)
 
         # cycleway = lane
-        if ("cycleway:right" in self.filtered_tags and self.filtered_tags["cycleway:right"] == "lane"):
-            if ("cycleway:right:lane" in self.filtered_tags and self.filtered_tags["cycleway:right:lane"] == "exclusive"):
+        if ("cycleway:right" in self.filtered_tags
+            and
+                self.filtered_tags["cycleway:right"] == "lane"):
+            if ("cycleway:right:lane" in self.filtered_tags
+                and
+                    self.filtered_tags["cycleway:right:lane"] == "exclusive"):
                 linie_links = WayElement(settings.Draw()["strasse"]["linie"][settings.Draw()["cycleway"]["ausgeschildert"]["radfahrstreifen"]["seitenlinie"]["links"]["breite"]],
                                          settings.Draw()["cycleway"]["ausgeschildert"]["radfahrstreifen"]["seitenlinie"]["links"]["laenge"],
                                          settings.Draw()["strasse"]["linie"]["colour"])
@@ -192,7 +197,9 @@ class Way:
                 linie_rechts.set_distance(settings.Draw()["cycleway"]["ausgeschildert"]["radfahrstreifen"]["seitenlinie"]["rechts"]["abstand"],
                                           settings.Draw()["strasse"]["colour"])
                 self.way_elems.append(linie_rechts)
-            elif ("cycleway:right:lane" in self.filtered_tags and self.filtered_tags["cycleway:right:lane"] == "advisory"):
+            elif ("cycleway:right:lane" in self.filtered_tags
+                  and
+                  self.filtered_tags["cycleway:right:lane"] == "advisory"):
                 linie_links = WayElement(settings.Draw()["strasse"]["linie"][settings.Draw()["cycleway"]["schutzstreifen"]["seitenlinie"]["links"]["breite"]],
                                          settings.Draw()["cycleway"]["schutzstreifen"]["seitenlinie"]["links"]["laenge"],
                                          settings.Draw()["strasse"]["linie"]["colour"])

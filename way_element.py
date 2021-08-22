@@ -19,20 +19,17 @@ class WayElement:
         if self._width == "?":
             self._width = 1
         elif not isinstance(self._width, (int, float)):
-            print("error: _width is not number:",
-                  type(self._width), self._width)
+            print("error: _width is not number:", type(self._width), self._width)
 
         if self._height == "?":
             self._distance = 1
         elif not isinstance(self._height, (int, float)):
-            print("error: _height is not number:",
-                  type(self._height), self._height)
+            print("error: _height is not number:", type(self._height), self._height)
 
         if self._distance == "?":
             self._distance = 1
         elif self._distance is not None and not isinstance(self._distance, (int, float)):
-            print("error: _distance is not number:",
-                  type(self._distance), self._distance)
+            print("error: _distance is not number:", type(self._distance), self._distance)
 
     def set_distance(self: 'WayElement', distance, background_colour: str) -> None:
         self._distance = distance

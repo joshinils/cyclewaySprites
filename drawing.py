@@ -48,10 +48,7 @@ class Drawing:
                 thisWidth += elem.width()
             widths.append(thisWidth)
 
-        self.svg_obj = svgwrite.Drawing(self.file_name,
-                                        profile='full',
-                                        size=(floor(width),
-                                              floor(settings.Draw()["draw_height_meter"] * settings.Draw()["pixel_pro_meter"])))
+        self.svg_obj = svgwrite.Drawing(self.file_name, profile='full', size=(floor(width), floor(settings.Draw()["draw_height_meter"] * settings.Draw()["pixel_pro_meter"])))
 
         way: Way
         x_offset = 0
@@ -85,8 +82,7 @@ class Drawing:
         self.ways.append(Way(name, tags, count, total))
 
     def add_test_elems(self: 'Drawing') -> None:
-        self.svg_obj.add(self.svg_obj.line((0, 0), (100, 10),
-                         stroke=svgwrite.rgb(10, 10, 16, '%')))
+        self.svg_obj.add(self.svg_obj.line((0, 0), (100, 10), stroke=svgwrite.rgb(10, 10, 16, '%')))
         self.svg_obj.add(self.svg_obj.text('Test', insert=(10, 10.2), fill='red'))
         self.svg_obj.add(self.svg_obj.rect((0, 0), (10, 10), fill='blue'))
 
@@ -132,8 +128,7 @@ class Drawing:
                         background_value = "lightgray"
                     else:
                         background_value = "yellow"
-                res += Drawing.html_row(key, value,
-                                        background_key, background_value)
+                res += Drawing.html_row(key, value, background_key, background_value)
 
             for key, value in way.filtered_tags.items():
                 if key in way.tags:
@@ -150,8 +145,7 @@ class Drawing:
                         background_value = "darkgray"
                     else:
                         background_value = "orange"
-                res += Drawing.html_row(key, value,
-                                        background_key, background_value)
+                res += Drawing.html_row(key, value, background_key, background_value)
             res += """\n            </table>\n        </td>\n"""
         res += """    </tr>"""
         return res

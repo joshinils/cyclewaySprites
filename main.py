@@ -12,7 +12,7 @@ def main():
     """ generate example data, draw data """
 
     # generate default draw settings,
-    # add default draw settings,
+    # add default draw settings
     settings.Draw.set_default_settings()
 
     # save draw settings
