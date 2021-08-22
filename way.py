@@ -27,20 +27,20 @@ class Way:
 
     # ignored tags have no renderable equivalent, thus ignore to suppress warnings
     ignored_tags = {
-            "bicycle":                     {"use_sidepath", "optional_sidepath"},
-                "bicycle:oneway":              {},
-                "bicycle:both":                {"use_sidepath", "optional_sidepath"},
-                "bicycle:left":                {"use_sidepath", "optional_sidepath"},
-                "bicycle:right":               {"use_sidepath", "optional_sidepath"},
-                "cycleway:both":               {"no", "separate"},
-                "cycleway:left":               {"no", "separate"},
-                "cycleway:right":              {"no", "separate"},
-                "cycleway:right:lane:bicycle": {},
-                "foot":                        {},
-                "footway":                     {"sidewalk"},
-                "sidewalk:both":               {"no", "separate"},
-                "sidewalk:left":               {"no", "separate"},
-                "sidewalk:right":              {"no", "separate"},
+        "bicycle":                     {"use_sidepath", "optional_sidepath"},
+        "bicycle:oneway":              {},
+        "bicycle:both":                {"use_sidepath", "optional_sidepath"},
+        "bicycle:left":                {"use_sidepath", "optional_sidepath"},
+        "bicycle:right":               {"use_sidepath", "optional_sidepath"},
+        "cycleway:both":               {"no", "separate"},
+        "cycleway:left":               {"no", "separate"},
+        "cycleway:right":              {"no", "separate"},
+        "cycleway:right:lane:bicycle": {},
+        "foot":                        {},
+        "footway":                     {"sidewalk"},
+        "sidewalk:both":               {"no", "separate"},
+        "sidewalk:left":               {"no", "separate"},
+        "sidewalk:right":              {"no", "separate"},
     }
 
     def __init__(self: 'Way', name: str, tags: tagging.Tag_group, count: int, total: int) -> 'Way':
@@ -100,19 +100,19 @@ class Way:
     def add_grass_verge_left(self: 'Way') -> None:
         # add grass_verge if first way
         if (self.count == 0
-                or
-                "separation:left" in self.filtered_tags
-                and self.filtered_tags["separation:left"] == "grass_verge"
-            ):
+                    or
+                    "separation:left" in self.filtered_tags
+                    and self.filtered_tags["separation:left"] == "grass_verge"
+                ):
             self.way_elems.append(self.make_grass_verge_elem())
 
     def add_grass_verge_right(self: 'Way') -> None:
         # add grass_verge on the right, if last way
         if (not self.count + 1 < self.total
-                or
-                "separation:right" in self.filtered_tags
-                and self.filtered_tags["separation:right"] == "grass_verge"
-            ):
+                    or
+                    "separation:right" in self.filtered_tags
+                    and self.filtered_tags["separation:right"] == "grass_verge"
+                ):
             self.way_elems.append(self.make_grass_verge_elem())
 
     def create_elements_highway_road(self: 'Way') -> None:
