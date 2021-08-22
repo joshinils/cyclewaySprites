@@ -22,9 +22,9 @@ def main():
     html += "<table border=1 frame=void>\n"
     html += """    <tr>
         <th>svg</th>
-        <th>Way A</th>
-        <th>Way B</th>
-        <th>Way C</th>
+        <th>Way 1</th>
+        <th>Way 2</th>
+        <th>Way 3</th>
     </tr>"""
 
     tags = Tags()
