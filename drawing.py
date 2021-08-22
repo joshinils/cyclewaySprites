@@ -8,6 +8,7 @@ import settings
 from way import Way
 from way_element import WayElement
 import tagging
+import numpy as np
 
 
 class Drawing:
@@ -19,40 +20,41 @@ class Drawing:
     # static class member
     file_name_counter = 0
 
-    def __init__(self: 'Drawing', file_name: typing.Optional[str] = "svg/default.svg") -> 'Drawing':
-        if file_name == "svg/default.svg":
-            file_name = "svg/default" + str(Drawing.file_name_counter) + ".svg"
+    def __init__(self: 'Drawing', file_name: typing.Optional[str] = None) -> 'Drawing':
+        if file_name == None:
+            file_name = "default" + str(Drawing.file_name_counter) + ".svg"
             Drawing.file_name_counter += 1
         self.ways = []
-        self.file_name = file_name
+        self.file_name = "svg/" + file_name
+        self.example_name = None
 
     def add_group(self: 'Drawing', example: tagging.Example) -> None:
         """ add an example to draw """
         tag_group: tagging.Tag_group
         count = 0
+        self.example_name = example.name
+        self.file_name = "svg/" + self.example_name.replace(" ", "_") + ".svg"
         for tag_group in example:
             self.add_way(tag_group.name, tag_group, count, len(example))
             count += 1
 
     def draw(self: 'Drawing'):
         """ if all data to be used is set, call draw() """
-        width = 0
-        widths = list()
+        total_elem_width = 0
 
         way: Way
         for way in self.ways:
             elem: WayElement
-            thisWidth = 0
             for elem in way.get_elements():
-                width += elem.width()
-                thisWidth += elem.width()
-            widths.append(thisWidth)
+                total_elem_width += elem.width()
 
-        self.svg_obj = svgwrite.Drawing(self.file_name, profile='full', size=(floor(width), floor(settings.Draw()["draw_height_meter"] * settings.Draw()["pixel_pro_meter"])))
+        self.svg_obj = svgwrite.Drawing(self.file_name, profile='full', size=(floor(total_elem_width), floor(settings.Draw()["draw_height_meter"] * settings.Draw()["pixel_pro_meter"])))
 
         way: Way
         x_offset = 0
         for way in self.ways:
+            way_x_offset = x_offset
+            way_width = 0
             elem: WayElement
             for elem in way.get_elements():
                 # print(elem)
@@ -77,6 +79,37 @@ class Drawing:
                 else:  # solid
                     self.svg_obj.add(self.svg_obj.rect((x_offset, 0), (elem.width()+overlap, elem.height()+overlap), fill=elem.colour))
                 x_offset += elem.width()
+                way_width += elem.width()
+            if self.example_name is None:
+                label_y_offset = 0
+            else:
+                label_y_offset = Drawing.label_height()
+            if "name" in way.tags:
+                self.draw_label(way.tags["name"], way_width, way_x_offset, label_y_offset, font_family="sans serif;font-style:italic", font_weight="normal")
+            else:
+                self.draw_label(way.name, way_width, way_x_offset, label_y_offset, font_weight="normal")
+        if self.example_name is not None:
+            self.draw_label(self.example_name, total_elem_width)
+
+    @staticmethod
+    def label_height() -> float:
+        padding = 0.1 * settings.Draw()["pixel_pro_meter"]
+        return 1 * settings.Draw()["pixel_pro_meter"] - padding
+
+    def draw_label(self: 'Drawing', label_text: str, way_width, x_offset=0, y_offset=0, font_family="serif", font_weight="bold") -> None:
+        padding = 0.1 * settings.Draw()["pixel_pro_meter"]
+        cover_height = Drawing.label_height() - padding
+        self.svg_obj.add(self.svg_obj.rect((x_offset + padding, y_offset + padding), (way_width - 2*padding, cover_height), fill="#0f0f0f", opacity=2/3))
+
+        # add vertically and horizontally centered way name as text on-top
+        self.svg_obj.add(
+            self.svg_obj.text(label_text,
+                              insert=(x_offset + way_width/2,
+                                      y_offset + cover_height/2 + padding),
+                              fill="#ffffff",
+                              style="font-size:" + str(0.5 * settings.Draw()["pixel_pro_meter"]) + "px;font-family:" + font_family + ";font-weight:" + font_weight + ";text-anchor:middle;dominant-baseline:central"
+                              )
+        )
 
     def add_way(self: 'Drawing', name: str, tags: tagging.Tag_group, count: int, total: int) -> None:
         self.ways.append(Way(name, tags, count, total))
