@@ -1,5 +1,5 @@
 {
-    "ex_03": {
+    "strasse5_frei": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -27,7 +27,7 @@
             }
         }]
     },
-    "ex_04": {
+    "strasse3.1": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -51,7 +51,7 @@
             }
         }]
     },
-    "ex_05": {
+    "strasse3": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -76,7 +76,7 @@
             }
         }]
     },
-    "ex_06": {
+    "strasse4": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -102,7 +102,7 @@
             }
         }]
     },
-    "ex_07": {
+    "strasse6_geteilt": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -129,7 +129,7 @@
             }
         }]
     },
-    "ex_08": {
+    "strasse2.1.1": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -156,7 +156,7 @@
             }
         }]
     },
-    "ex_09": {
+    "strasse2.1_geteilt": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -184,7 +184,7 @@
             }
         }]
     },
-    "ex_10": {
+    "strasse2.2": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -215,7 +215,7 @@
             }
         }]
     },
-    "ex_11": {
+    "strasse2.2_rad": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -247,7 +247,7 @@
             }
         }]
     },
-    "ex_12": {
+    "strasse2_doppel.2_rad": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -279,7 +279,7 @@
             }
         }]
     },
-    "ex_13": {
+    "strasse2_doppel.1_rad": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -307,7 +307,7 @@
             }
         }]
     },
-    "ex_14": {
+    "strasse2": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -339,7 +339,7 @@
             }
         }]
     },
-    "ex_15": {
+    "strasse2_rad": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
@@ -372,7 +372,7 @@
             }
         }]
     },
-    "ex_16": {
+    "strasse2_doppel_rad": {
         "sort_weight": 1000,
         "ways": [{
             "name": "Way 1",
