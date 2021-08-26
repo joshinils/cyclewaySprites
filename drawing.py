@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # pylint: disable=line-too-long
 
 import typing
@@ -8,7 +7,7 @@ import settings
 from way import Way
 from way_element import WayElement
 import tagging
-import numpy as np
+import traffic_sign
 
 
 class Drawing:
@@ -35,7 +34,7 @@ class Drawing:
         self.example_name = example.name
         self.file_name = "svg/" + self.example_name.replace(" ", "_") + ".svg"
         for tag_group in example:
-            self.add_way(tag_group.name, tag_group, count, len(example))
+            self.ways.append(Way(tag_group.name, tag_group, count, len(example)))
             count += 1
 
     def draw(self: 'Drawing'):
@@ -50,8 +49,8 @@ class Drawing:
 
         self.svg_obj = svgwrite.Drawing(self.file_name, profile='full', size=(floor(total_elem_width), floor(settings.Draw()["draw_height_meter"] * settings.Draw()["pixel_pro_meter"])))
 
-        way: Way
         x_offset = 0
+        way: Way
         for way in self.ways:
             way_x_offset = x_offset
             way_width = 0
@@ -80,6 +79,11 @@ class Drawing:
                     self.svg_obj.add(self.svg_obj.rect((x_offset, 0), (elem.width()+overlap, elem.height()+overlap), fill=elem.colour))
                 x_offset += elem.width()
                 way_width += elem.width()
+            # add traffic_signs
+            sign: traffic_sign.TrafficSign
+            for sign in way.traffic_signs:
+                self.svg_obj.add(sign.get_svg())
+
             if self.example_name is None:
                 label_y_offset = 0
             else:
@@ -110,9 +114,6 @@ class Drawing:
                               style="font-size:" + str(0.5 * settings.Draw()["pixel_pro_meter"]) + "px;font-family:" + font_family + ";font-weight:" + font_weight + ";text-anchor:middle;dominant-baseline:central"
                               )
         )
-
-    def add_way(self: 'Drawing', name: str, tags: tagging.Tag_group, count: int, total: int) -> None:
-        self.ways.append(Way(name, tags, count, total))
 
     def save(self: 'Drawing') -> None:
         self.svg_obj.save()
@@ -145,7 +146,7 @@ class Drawing:
             res += """        <td>\n            <table border=1 frame=void>"""
             for key, value in way.tags.items():
                 background_key = None
-                if key not in Way.recognized_tags:
+                if key not in Way.recognized_tags and key not in Way.recognized_tags_any_value:
                     if key in Way.ignored_tags:
                         background_key = "lightgrey"
                     else:
@@ -155,7 +156,8 @@ class Drawing:
                     if key in Way.ignored_tags and value in Way.ignored_tags[key]:
                         background_value = "lightgray"
                     else:
-                        background_value = "yellow"
+                        if key not in Way.recognized_tags_any_value:
+                            background_value = "yellow"
                 res += Drawing.html_row(key, value, background_key, background_value)
 
             for key, value in way.filtered_tags.items():

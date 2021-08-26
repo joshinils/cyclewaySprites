@@ -3,6 +3,7 @@ import typing
 from way_element import WayElement
 from pprint import pprint
 import tagging
+import traffic_sign
 
 
 class Way:
@@ -13,6 +14,7 @@ class Way:
     total: int
     way_elems: typing.List[WayElement]
     tags: tagging.Tag_group
+    traffic_signs: typing.List
 
     recognized_tags = {
         "highway":             {"road", "footway", "cycleway", "path"},
@@ -23,8 +25,17 @@ class Way:
         "segregated":          {"yes", "no"},
         "separation:left":     {"grass_verge"},
         "separation:right":    {"grass_verge"},
-        "name":                {}
+        "traffic_sign":        {  # "DE:237",
+            # "DE:237;1000-31",
+            # "DE:239;1022-10",
+            "DE:240",
+            "DE:241;1000-31",
+            "DE:241-30"}
     }
+
+    recognized_tags_any_value = [
+        "name"
+    ]
 
     # ignored tags have no renderable equivalent, thus ignore to suppress warnings
     ignored_tags = {
@@ -50,6 +61,7 @@ class Way:
         self.tags: tagging.Tag_group = tags
         self.count: int = count
         self.total: int = total
+        self.traffic_signs: typing.List = list()
 
         self.filter_tags()
 
@@ -75,7 +87,6 @@ class Way:
 
     # filter group of tags to just contain the recognized ones,
     # warn if non-recognized tags are contained
-
     def filter_tags(self: 'Way') -> None:
         self.filtered_tags = {}
         for tag, value in self.tags.items():
@@ -87,6 +98,8 @@ class Way:
                         print('warning: unrecognized value found for tag "'+tag+'"="'+value+'"')
                     elif value in self.ignored_tags[tag]:
                         print('warning: unrecognized value found for ignored tag "'+tag+'"="'+value+'"')
+            elif tag in self.recognized_tags_any_value:
+                self.filtered_tags[tag] = value
             elif tag in self.ignored_tags:
                 if value not in self.ignored_tags[tag]:
                     print('warning: unrecognized value found for ignored tag "'+tag+'"="'+value+'"')
@@ -267,7 +280,15 @@ class Way:
                                       settings.Draw()["weg"]["colour"])
         self.way_elems.append(highway_path)
 
-        # TODO traffic_sign="*"
+        if "traffic_sign" in self.filtered_tags:
+            sign_values = self.filtered_tags["traffic_sign"].split(";")
+            for sign_name in sign_values:
+                self.add_traffic_sign(sign_name)
+
+    def add_traffic_sign(self: 'Way', sign_name: str) -> None:
+        if sign_name.startswith("DE:"):
+            sign_name = sign_name[3:]
+        self.traffic_signs.append(traffic_sign.TrafficSign(sign_name))
 
     def get_elements(self: 'Way') -> typing.Generator[WayElement, None, None]:
         for elem in self.way_elems:
