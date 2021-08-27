@@ -8,7 +8,8 @@
                 "highway": "road",
                 "cycleway:both": "no",
                 "sidewalk:both": "no",
-                "name": "Musterstraße"
+                "name": "Musterstraße",
+                "traffic_sign": "none"
             }
         }]
     },
@@ -22,7 +23,8 @@
                 "cycleway:both": "no",
                 "sidewalk:left": "no",
                 "sidewalk:right": "separate",
-                "name": "Musterstraße"
+                "name": "Musterstraße",
+                "traffic_sign": "none"
             }
         }, {
             "name": "Bürgersteig",
@@ -30,7 +32,8 @@
             "tags": {
                 "highway": "footway",
                 "footway": "sidewalk",
-                "separation:left": "grass_verge"
+                "separation:left": "grass_verge",
+                "traffic_sign": "none"
             }
         }]
     }

@@ -54,7 +54,8 @@ class Way:
         "sidewalk:both":               {"no", "separate"},
         "sidewalk:left":               {"no", "separate"},
         "sidewalk:right":              {"no", "separate"},
-        "maxspeed:bicycle":            {"walk"}
+        "maxspeed:bicycle":            {"walk"},
+        "traffic_sign":                {"none"}
     }
 
     def __init__(self: 'Way', name: str, tags: tagging.Tag_group, count: int, total: int) -> 'Way':
