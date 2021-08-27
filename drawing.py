@@ -1,5 +1,6 @@
 # pylint: disable=line-too-long
 
+from os import stat
 import typing
 from math import floor
 import svgwrite
@@ -8,6 +9,7 @@ from way import Way
 from way_element import WayElement
 import tagging
 import traffic_sign
+import svgutils
 
 
 class Drawing:
@@ -15,6 +17,7 @@ class Drawing:
     ways: typing.List
     svg_obj: svgwrite.Drawing
     file_name: str
+    labels_height_offset: float
 
     # static class member
     file_name_counter = 0
@@ -26,6 +29,7 @@ class Drawing:
         self.ways = []
         self.file_name = "svg/" + file_name
         self.example_name = None
+        self.labels_height_offset: float = 0
 
     def add_group(self: 'Drawing', example: tagging.Example) -> None:
         """ add an example to draw """
@@ -43,17 +47,14 @@ class Drawing:
 
         way: Way
         for way in self.ways:
-            elem: WayElement
-            for elem in way.get_elements():
-                total_elem_width += elem.width()
+            total_elem_width += way.get_width()
 
         self.svg_obj = svgwrite.Drawing(self.file_name, profile='full', size=(floor(total_elem_width), floor(settings.Draw()["draw_height_meter"] * settings.Draw()["pixel_pro_meter"])))
 
-        x_offset = 0
+        element_x_offset = 0
         way: Way
         for way in self.ways:
-            way_x_offset = x_offset
-            way_width = 0
+            way_x_offset = element_x_offset
             elem: WayElement
             for elem in way.get_elements():
                 # print(elem)
@@ -68,30 +69,25 @@ class Drawing:
 
                     y_offset = 0
                     # initially half at top
-                    self.svg_obj.add(self.svg_obj.rect((x_offset, y_offset), (elem.width()+overlap, elem.height()/2+overlap), fill=elem.colour))
+                    self.svg_obj.add(self.svg_obj.rect((element_x_offset, y_offset), (elem.get_width()+overlap, elem.height()/2+overlap), fill=elem.colour))
                     y_offset += elem.height()/2
                     while y_offset < settings.Draw()["draw_height_meter"] * settings.Draw()["pixel_pro_meter"]:
-                        self.svg_obj.add(self.svg_obj.rect((x_offset, y_offset), (elem.width()+overlap, elem.get_distance()+overlap), fill=elem.background_colour))
+                        self.svg_obj.add(self.svg_obj.rect((element_x_offset, y_offset), (elem.get_width()+overlap, elem.get_distance()+overlap), fill=elem.background_colour))
                         y_offset += elem.get_distance()
-                        self.svg_obj.add(self.svg_obj.rect((x_offset, y_offset), (elem.width()+overlap, elem.height()+overlap), fill=elem.colour))
+                        self.svg_obj.add(self.svg_obj.rect((element_x_offset, y_offset), (elem.get_width()+overlap, elem.height()+overlap), fill=elem.colour))
                         y_offset += elem.height()
                 else:  # solid
-                    self.svg_obj.add(self.svg_obj.rect((x_offset, 0), (elem.width()+overlap, elem.height()+overlap), fill=elem.colour))
-                x_offset += elem.width()
-                way_width += elem.width()
-            # add traffic_signs
-            sign: traffic_sign.TrafficSign
-            for sign in way.traffic_signs:
-                self.svg_obj.add(sign.get_svg())
+                    self.svg_obj.add(self.svg_obj.rect((element_x_offset, 0), (elem.get_width()+overlap, elem.height()+overlap), fill=elem.colour))
+                element_x_offset += elem.get_width()
 
             if self.example_name is None:
                 label_y_offset = 0
             else:
                 label_y_offset = Drawing.label_height()
             if "name" in way.tags:
-                self.draw_label(way.tags["name"], way_width, way_x_offset, label_y_offset, font_family="sans serif;font-style:italic", font_weight="normal")
+                self.draw_label(way.tags["name"], way.get_width(), way_x_offset, label_y_offset, font_family="sans serif;font-style:italic", font_weight="normal")
             else:
-                self.draw_label(way.name, way_width, way_x_offset, label_y_offset, font_weight="normal")
+                self.draw_label(way.name, way.get_width(), way_x_offset, label_y_offset, font_weight="normal")
         if self.example_name is not None:
             self.draw_label(self.example_name, total_elem_width)
 
@@ -100,11 +96,18 @@ class Drawing:
         padding = 0.1 * settings.Draw()["pixel_pro_meter"]
         return 1 * settings.Draw()["pixel_pro_meter"] - padding
 
+    @staticmethod
+    def get_padding() -> float:
+        return 0.1 * settings.Draw()["pixel_pro_meter"]
+
     def draw_label(self: 'Drawing', label_text: str, way_width, x_offset=0, y_offset=0, font_family="serif", font_weight="bold") -> None:
-        padding = 0.1 * settings.Draw()["pixel_pro_meter"]
+        padding = self.get_padding()
         cover_height = Drawing.label_height() - padding
         self.svg_obj.add(self.svg_obj.rect((x_offset + padding, y_offset + padding), (way_width - 2*padding, cover_height), fill="#0f0f0f", opacity=2/3))
 
+        # print(self.labels_height_offset)
+        self.labels_height_offset = max(self.labels_height_offset, y_offset + padding + cover_height)
+        # print(self.labels_height_offset)
         # add vertically and horizontally centered way name as text on-top
         self.svg_obj.add(
             self.svg_obj.text(label_text,
@@ -117,6 +120,36 @@ class Drawing:
 
     def save(self: 'Drawing') -> None:
         self.svg_obj.save()
+
+        # add traffic_signs on-top afterward
+        has_traffic_signs = False
+        way: Way
+        for way in self.ways:
+            if len(way.traffic_signs) > 0:
+                has_traffic_signs = True
+                break
+
+        if has_traffic_signs:
+            svg_obj = svgutils.transform.fromfile(self.file_name)
+            way: Way
+            way_x_offset = 0
+            for way in self.ways:
+                way_traffic_sign_y_offset = 0
+                way_width = way.get_width()
+                sign: traffic_sign.TrafficSign
+                for sign in way.traffic_signs:
+                    sign_offset_x = way_x_offset + way_width * sign.side_weight
+                    sign_offset_y = self.labels_height_offset + sign.get_height()/2 + self.get_padding() + way_traffic_sign_y_offset
+
+                    if sign_offset_x + sign.get_width() / 2 + self.get_padding() > way_x_offset + way_width:
+                        sign_offset_x = way_x_offset + way_width - (sign.get_width() / 2 + self.get_padding())
+                    elif sign_offset_x + sign.get_width() / 2 + self.get_padding() < way_x_offset:
+                        sign_offset_x = way_x_offset + (sign.get_width() / 2 + self.get_padding())
+
+                    svg_obj.append(sign.get_svg(sign_offset_x, sign_offset_y))
+                    way_traffic_sign_y_offset += sign.get_height() + self.get_padding() + way_traffic_sign_y_offset
+                way_x_offset += way_width
+            svg_obj.save(self.file_name)
 
     @staticmethod
     def html_row(key, value, background_key=None, background_value=None) -> str:

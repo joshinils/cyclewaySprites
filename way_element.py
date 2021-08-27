@@ -42,7 +42,7 @@ class WayElement:
         # floor to avoid floating point inaccuracies and weird subpixel gaps in the rendered svg
         return floor(val * settings.Draw()["pixel_pro_meter"])
 
-    def width(self: 'WayElement') -> float:
+    def get_width(self: 'WayElement') -> float:
         return self.convert_meter_to_pixel(self._width)
 
     def height(self: 'WayElement') -> float:

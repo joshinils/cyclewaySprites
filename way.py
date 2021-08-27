@@ -17,42 +17,44 @@ class Way:
     traffic_signs: typing.List
 
     recognized_tags = {
-        "highway":             {"road", "footway", "cycleway", "path"},
-        "lanes":               {"1", "2", "3", "4"},
-        "cycleway:right":      {"lane"},
-        "cycleway:right:lane": {"exclusive", "advisory"},
-        "divider":             {"dashed_line", "solid_line", "no"},
-        "segregated":          {"yes", "no"},
-        "separation:left":     {"grass_verge"},
-        "separation:right":    {"grass_verge"},
-        "traffic_sign":        {  # "DE:237",
-            # "DE:237;1000-31",
-            # "DE:239;1022-10",
-            "DE:240",
-            "DE:241;1000-31",
-            "DE:241-30"}
+        "highway":                     {"road", "footway", "cycleway", "path"},
+        "lanes":                       {"1", "2", "3", "4"},
+        "cycleway:right":              {"lane"},
+        "cycleway:right:lane":         {"exclusive", "advisory"},
+        "divider":                     {"dashed_line", "solid_line", "no"},
+        "segregated":                  {"yes", "no"},
+        "separation:left":             {"grass_verge"},
+        "separation:right":            {"grass_verge"},
+        "traffic_sign":                {"DE:237",
+                                        "DE:237;1000-31",
+                                        "DE:239;1022-10",
+                                        "DE:240",
+                                        "DE:241;1000-31",
+                                        "DE:241-30"},
+        "cycleway:right:traffic_sign": {"DE:237"}
     }
 
     recognized_tags_any_value = [
-        "name"
+        "name",
     ]
 
     # ignored tags have no renderable equivalent, thus ignore to suppress warnings
     ignored_tags = {
-        "bicycle":                     {"use_sidepath", "optional_sidepath"},
-        "bicycle:oneway":              {},
+        "bicycle":                     {"use_sidepath", "optional_sidepath", "designated", "yes"},
+        "bicycle:oneway":              {"no", "yes"},
         "bicycle:both":                {"use_sidepath", "optional_sidepath"},
         "bicycle:left":                {"use_sidepath", "optional_sidepath"},
         "bicycle:right":               {"use_sidepath", "optional_sidepath"},
         "cycleway:both":               {"no", "separate"},
         "cycleway:left":               {"no", "separate"},
         "cycleway:right":              {"no", "separate"},
-        "cycleway:right:lane:bicycle": {},
-        "foot":                        {},
+        "cycleway:right:lane:bicycle": {"yes", "designated"},
+        "foot":                        {"yes", "no", "designated"},
         "footway":                     {"sidewalk"},
         "sidewalk:both":               {"no", "separate"},
         "sidewalk:left":               {"no", "separate"},
-        "sidewalk:right":              {"no", "separate"}
+        "sidewalk:right":              {"no", "separate"},
+        "maxspeed:bicycle":            {"walk"}
     }
 
     def __init__(self: 'Way', name: str, tags: tagging.Tag_group, count: int, total: int) -> 'Way':
@@ -85,8 +87,18 @@ class Way:
             print("no highway tag found!")
             pprint(self.tags, indent=9, compact=False, sort_dicts=False, width=1)
 
+        if "traffic_sign" in self.filtered_tags:
+            sign_values = self.filtered_tags["traffic_sign"].split(";")
+            for sign_name in sign_values:
+                self.add_traffic_sign(sign_name, 2/3)
+        if "cycleway:right:traffic_sign" in self.filtered_tags:
+            sign_values = self.filtered_tags["cycleway:right:traffic_sign"].split(";")
+            for sign_name in sign_values:
+                self.add_traffic_sign(sign_name, 3/4)
+
     # filter group of tags to just contain the recognized ones,
     # warn if non-recognized tags are contained
+
     def filter_tags(self: 'Way') -> None:
         self.filtered_tags = {}
         for tag, value in self.tags.items():
@@ -96,7 +108,7 @@ class Way:
                 else:
                     if tag not in self.ignored_tags:
                         print('warning: unrecognized value found for tag "'+tag+'"="'+value+'"')
-                    elif value in self.ignored_tags[tag]:
+                    elif value not in self.ignored_tags[tag]:
                         print('warning: unrecognized value found for ignored tag "'+tag+'"="'+value+'"')
             elif tag in self.recognized_tags_any_value:
                 self.filtered_tags[tag] = value
@@ -177,7 +189,7 @@ class Way:
         for lane_num in range(int(self.filtered_tags["lanes"])):
             self.way_elems.append(highway_lane)
             if int(self.filtered_tags["lanes"]) > 1 and lane_num + 1 < int(self.filtered_tags["lanes"]):
-                if leitlinie:
+                if 'leitlinie' in vars():
                     self.way_elems.append(leitlinie)
 
         # cycleway = lane
@@ -280,15 +292,17 @@ class Way:
                                       settings.Draw()["weg"]["colour"])
         self.way_elems.append(highway_path)
 
-        if "traffic_sign" in self.filtered_tags:
-            sign_values = self.filtered_tags["traffic_sign"].split(";")
-            for sign_name in sign_values:
-                self.add_traffic_sign(sign_name)
-
-    def add_traffic_sign(self: 'Way', sign_name: str) -> None:
+    def add_traffic_sign(self: 'Way', sign_name: str, side_weight=1/2) -> None:
         if sign_name.startswith("DE:"):
             sign_name = sign_name[3:]
-        self.traffic_signs.append(traffic_sign.TrafficSign(sign_name))
+        self.traffic_signs.append(traffic_sign.TrafficSign(sign_name, side_weight))
+
+    def get_width(self: 'Way') -> float:
+        width = 0
+        elem: WayElement
+        for elem in self.way_elems:
+            width += elem.get_width()
+        return width
 
     def get_elements(self: 'Way') -> typing.Generator[WayElement, None, None]:
         for elem in self.way_elems:

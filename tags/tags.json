@@ -40,7 +40,8 @@
                 "cycleway:right:lane:bicycle": "yes",
                 "sidewalk:left": "no",
                 "sidewalk:right": "separate",
-                "separation:right": "grass_verge"
+                "separation:right": "grass_verge",
+                "divider": "no"
             }
         }, {
             "name": "Way 2",
